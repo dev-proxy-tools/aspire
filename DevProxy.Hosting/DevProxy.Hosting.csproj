@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <Authors>Dev Proxy</Authors>
+    <Title>Dev Proxy .NET Aspire extensions</Title>
+    <Description>.NET Aspire extensions for adding Dev Proxy as a resource to your .NET Aspire application.</Description>
+    <PackageId>DevProxy.Hosting</PackageId>
+    <PackageTags>devproxy;aspire;dotnet</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://aka.ms/devproxy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/waldekmastykarz/dev-proxy-aspire</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\assets\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting" Version="9.2.1" />
+  </ItemGroup>
+
+</Project>

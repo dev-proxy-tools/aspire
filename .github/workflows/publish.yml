@@ -1,0 +1,48 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DevProxy.Hosting
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Get version from tag
+      id: get_version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+    - name: Update version in .csproj
+      run: |
+        sed -i 's|<Version>.*</Version>|<Version>${{ steps.get_version.outputs.VERSION }}</Version>|' DevProxy.Hosting.csproj
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Pack
+      run: dotnet pack --configuration Release --no-build --output ./nupkg
+
+    - name: Debug NuGet API Key
+      run: echo "NUGET_API_KEY_HASH=$(echo -n ${{ secrets.NUGET_API_KEY }} | sha256sum)" >> $GITHUB_ENV
+
+    - name: Print NuGet API Key Hash
+      run: 'echo "NuGet API Key Hash: $NUGET_API_KEY_HASH"'
+
+    - name: Push to NuGet
+      run: dotnet nuget push ./nupkg/DevProxy.Hosting.${{ steps.get_version.outputs.VERSION }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
