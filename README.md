@@ -31,19 +31,13 @@ var apiService = builder.AddProject<Projects.AspireStarterApp_ApiService>("apise
 // Add Dev Proxy as a container resource
 var devProxy = builder.AddDevProxyContainer("devproxy")
     // specify the Dev Proxy configuration file
-    .WithArgs("-c", "./devproxyrc.json")
-    .WithArgs(context =>
-    {
-        context.Args.Add("-u");
-        // let Dev Proxy intercept requests to the API service
-        context.Args.Add($"{apiService.GetEndpoint("https").Url}/*");
-    })
+    .WithConfigFile("./devproxy.json")
     // mount the local folder with PFX certificate for intercepting HTTPS traffic
-    .WithBindMount(Path.Combine(AppContext.BaseDirectory, ".devproxy", "cert"),
-        "/home/devproxy/.config/dev-proxy/rootCert")
+    .WithCertFolder(".devproxy/cert")
     // mount the local folder with Dev Proxy configuration
-    .WithBindMount(Path.Combine(AppContext.BaseDirectory, ".devproxy", "config"),
-        "/config");
+    .WithConfigFolder(".devproxy/config")
+    // let Dev Proxy intercept requests to the API service
+    .WithUrlsToWatch(() => [$"{apiService.GetEndpoint("https").Url}/*"]);
 
 // Add a web frontend project and configure it to use Dev Proxy
 builder.AddProject<Projects.AspireStarterApp_Web>("webfrontend")
@@ -72,11 +66,8 @@ var apiService = builder.AddProject<Projects.AspireStarterApp_ApiService>("apise
     .WithHttpsHealthCheck("/health");
 
 var devProxy = builder.AddDevProxyExecutable("devproxy")
-    .WithArgs("-c", Path.Combine(".devproxy", "config", "devproxy.json"))
-    .WithArgs(context => {
-        context.Args.Add("-u");
-        context.Args.Add($"{apiService.GetEndpoint("https").Url}/*");
-    });
+    .WithConfigFile(".devproxy/config/devproxy.json")
+    .WithUrlsToWatch(() => [$"{apiService.GetEndpoint("https").Url}/*"]);
 
 // Add a web frontend project and configure it to use Dev Proxy
 builder.AddProject<Projects.AspireStarterApp_Web>("webfrontend")
@@ -95,7 +86,7 @@ builder.Build().Run();
 
 - **Container Resource**: Use `AddDevProxyContainer` to run Dev Proxy as a containerized service.
 - **Executable Resource**: Use `AddDevProxyExecutable` to run Dev Proxy from the locally installed executable.
-- **Custom Configuration**: Pass custom arguments and bind mounts to configure Dev Proxy as needed.
+- **Custom Configuration**: Use the extension methods to configure Dev Proxy as needed.
 - **Service Integration**: Easily integrate Dev Proxy with other services in your application.
 
 ## Contributing
