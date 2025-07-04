@@ -12,7 +12,7 @@
     <PackageTags>devproxy;aspire;dotnet</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://aka.ms/devproxy</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/waldekmastykarz/dev-proxy-aspire</RepositoryUrl>
+    <RepositoryUrl>https://github.com/dev-proxy-tools/aspire</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
