@@ -18,7 +18,7 @@ public static class DevProxyResourceBuilderExtensions
     /// <returns>A resource builder for the DevProxy executable resource.</returns>
     public static IResourceBuilder<DevProxyExecutableResource> AddDevProxyExecutable(
         this IDistributedApplicationBuilder builder,
-        string name)
+        [ResourceName] string name)
     {
         var resource = new DevProxyExecutableResource(name);
 
@@ -68,7 +68,7 @@ public static class DevProxyResourceBuilderExtensions
     /// <returns>A resource builder for the DevProxy container resource.</returns>
     public static IResourceBuilder<DevProxyContainerResource> AddDevProxyContainer(
         this IDistributedApplicationBuilder builder,
-        string name)
+        [ResourceName] string name)
     {
         var resource = new DevProxyContainerResource(name);
 
