@@ -1,6 +1,9 @@
 # Dev Proxy .NET Aspire extensions
 
-Use Dev Proxy extensions for .NET Aspire to seamlessly integrate Dev Proxy into your distributed applications. Use Dev Proxy to:
+[![NuGet Version](https://img.shields.io/nuget/v/DevProxy.Hosting)](https://www.nuget.org/packages/DevProxy.Hosting)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/DevProxy.Hosting)](https://www.nuget.org/packages/DevProxy.Hosting)
+
+Use Dev Proxy extensionsfor .NET Aspire to seamlessly integrate Dev Proxy into your distributed applications. Use Dev Proxy to:
 
 - Verify how your distributed app handles API errors, both from your own services and third-party APIs
 - Mock APIs while developing your app
