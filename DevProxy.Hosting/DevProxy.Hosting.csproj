@@ -9,7 +9,7 @@
     <Title>Dev Proxy .NET Aspire extensions</Title>
     <Description>.NET Aspire extensions for adding Dev Proxy as a resource to your .NET Aspire application.</Description>
     <PackageId>DevProxy.Hosting</PackageId>
-    <PackageTags>devproxy;aspire;dotnet</PackageTags>
+    <PackageTags>devproxy;aspire;dotnet;integration;hosting</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://aka.ms/devproxy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dev-proxy-tools/aspire</RepositoryUrl>
