@@ -56,7 +56,7 @@ public static class DevProxyResourceBuilderExtensions
         return builder.WithArgs(context =>
         {
             context.Args.Add("-u");
-            context.Args.Add(string.Join(" ", urlsToWatch()));
+            urlsToWatch().ToList().ForEach(url => context.Args.Add(url));
         });
     }
 
@@ -138,7 +138,7 @@ public static class DevProxyResourceBuilderExtensions
         return builder.WithArgs(context =>
         {
             context.Args.Add("-u");
-            context.Args.Add(string.Join(" ", urlsToWatch()));
+            urlsToWatch().ToList().ForEach(url => context.Args.Add(url));
         });
     }
 }
