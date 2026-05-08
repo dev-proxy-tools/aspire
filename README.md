@@ -29,7 +29,8 @@ var builder = DistributedApplication
 
 // Add an API service to the application
 var apiService = builder.AddProject<Projects.AspireStarterApp_ApiService>("apiservice")
-    .WithHttpsHealthCheck("/health");
+    .WithHttpHealthCheck("/health")
+    .WithHttpsEndpoint();
 
 // Add Dev Proxy as a container resource
 var devProxy = builder.AddDevProxyContainer("devproxy")
@@ -45,7 +46,7 @@ var devProxy = builder.AddDevProxyContainer("devproxy")
 // Add a web frontend project and configure it to use Dev Proxy
 builder.AddProject<Projects.AspireStarterApp_Web>("webfrontend")
     .WithExternalHttpEndpoints()
-    .WithHttpsHealthCheck("/health")
+    .WithHttpHealthCheck("/health")
     // set the HTTPS_PROXY environment variable to the Dev Proxy endpoint
     .WithEnvironment("HTTPS_PROXY", devProxy.GetEndpoint(DevProxyResource.ProxyEndpointName))
     .WithReference(apiService)
@@ -66,7 +67,8 @@ var builder = DistributedApplication
 
 // Add an API service to the application
 var apiService = builder.AddProject<Projects.AspireStarterApp_ApiService>("apiservice")
-    .WithHttpsHealthCheck("/health");
+    .WithHttpHealthCheck("/health")
+    .WithHttpsEndpoint();
 
 var devProxy = builder.AddDevProxyExecutable("devproxy")
     .WithConfigFile(".devproxy/config/devproxy.json")
@@ -75,7 +77,7 @@ var devProxy = builder.AddDevProxyExecutable("devproxy")
 // Add a web frontend project and configure it to use Dev Proxy
 builder.AddProject<Projects.AspireStarterApp_Web>("webfrontend")
     .WithExternalHttpEndpoints()
-    .WithHttpsHealthCheck("/health")
+    .WithHttpHealthCheck("/health")
     .WithEnvironment("HTTPS_PROXY", devProxy.GetEndpoint(DevProxyResource.ProxyEndpointName))
     .WithReference(apiService)
     .WaitFor(apiService)
