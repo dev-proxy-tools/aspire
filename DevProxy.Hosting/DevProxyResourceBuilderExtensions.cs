@@ -25,7 +25,8 @@ public static class DevProxyResourceBuilderExtensions
         var resourceBuilder = builder.AddResource(resource)
             .WithArgs("--as-system-proxy", "false")
             .WithHttpEndpoint(targetPort: 8000, name: DevProxyResource.ProxyEndpointName)
-            .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName);
+            .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName)
+            .WithDevProxyRecordingCommands();
 
         return resourceBuilder;
     }
@@ -77,7 +78,8 @@ public static class DevProxyResourceBuilderExtensions
             .WithImageRegistry(DevProxyContainerImageTags.Registry)
             .WithImageTag(DevProxyContainerImageTags.Tag)
             .WithHttpEndpoint(targetPort: 8000, name: DevProxyResource.ProxyEndpointName)
-            .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName);
+            .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName)
+            .WithDevProxyRecordingCommands();
 
         return resourceBuilder;
     }

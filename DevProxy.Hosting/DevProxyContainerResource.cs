@@ -6,6 +6,6 @@ namespace DevProxy.Hosting;
 /// Exposes Dev Proxy as a Docker container.
 /// </summary>
 public sealed class DevProxyContainerResource(string name) :
-    ContainerResource(name)
+    ContainerResource(name), IDevProxyApiResource
 {
 }
