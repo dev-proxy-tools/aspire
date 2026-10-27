@@ -5,6 +5,7 @@ namespace DevProxy.Hosting;
 /// <summary>
 /// Typed client for the Dev Proxy management API.
 /// </summary>
+[Headers("Authorization: Bearer")]
 public interface IDevProxyApiClient
 {
     /// <summary>

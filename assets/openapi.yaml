@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:8897
     description: Default local management API endpoint
+security:
+  - bearerAuth: []
 paths:
   /proxy:
     get:
@@ -18,6 +20,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProxyInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
     post:
       operationId: setProxy
       summary: Update proxy state
@@ -41,6 +45,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /proxy/mockRequest:
     post:
       operationId: raiseMockRequest
@@ -48,6 +54,8 @@ paths:
       responses:
         '204':
           description: Mock request raised.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /proxy/stopProxy:
     post:
       operationId: stopProxy
@@ -55,6 +63,8 @@ paths:
       responses:
         '202':
           description: Proxy shutdown was requested.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /proxy/jwtToken:
     post:
       operationId: createJwtToken
@@ -78,6 +88,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /proxy/rootCertificate:
     get:
       operationId: getRootCertificate
@@ -107,6 +119,8 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
   /proxy/logs:
     get:
       operationId: getLogs
@@ -155,7 +169,21 @@ paths:
                 type: string
         '404':
           description: Logs are unavailable outside detached mode or the log file does not exist.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Per-instance token returned by `devproxy api token`.
+  responses:
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      headers:
+        WWW-Authenticate:
+          schema:
+            type: string
   schemas:
     ProxyInfo:
       type: object
