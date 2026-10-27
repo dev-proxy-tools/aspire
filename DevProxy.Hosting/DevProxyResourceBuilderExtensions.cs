@@ -26,7 +26,7 @@ public static class DevProxyResourceBuilderExtensions
             .WithArgs("--as-system-proxy", "false")
             .WithHttpEndpoint(targetPort: 8000, name: DevProxyResource.ProxyEndpointName)
             .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName)
-            .WithDevProxyRecordingCommands();
+            .WithRecordingCommands();
 
         return resourceBuilder;
     }
@@ -71,21 +71,15 @@ public static class DevProxyResourceBuilderExtensions
         this IDistributedApplicationBuilder builder,
         [ResourceName] string name)
     {
-        var apiTokenDirectory = Path.Combine(
-            builder.AppHostDirectory,
-            "obj",
-            "devproxy-api",
-            name);
-        var resource = new DevProxyContainerResource(name, apiTokenDirectory);
+        var resource = new DevProxyContainerResource(name);
 
         var resourceBuilder = builder.AddResource(resource)
             .WithImage(DevProxyContainerImageTags.Image)
             .WithImageRegistry(DevProxyContainerImageTags.Registry)
             .WithImageTag(DevProxyContainerImageTags.Tag)
-            .WithBindMount(resource.ApiTokenDirectory, "/home/devproxy/.config/dev-proxy/credentials")
             .WithHttpEndpoint(targetPort: 8000, name: DevProxyResource.ProxyEndpointName)
             .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName)
-            .WithDevProxyRecordingCommands();
+            .WithRecordingCommands();
 
         return resourceBuilder;
     }
