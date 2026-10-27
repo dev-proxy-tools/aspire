@@ -51,8 +51,18 @@ public static class DevProxyCommandExtensions
             return CommandResults.Failure("The Dev Proxy API endpoint is not available.");
         }
 
-        using var httpClient = new HttpClient { BaseAddress = new Uri(endpointUrl) };
-        var apiClient = RestService.ForGenerated<IDevProxyApiClient>(httpClient);
+        var apiEndpoint = new Uri(endpointUrl);
+        using var httpClient = new HttpClient(new HttpClientHandler { UseProxy = false })
+        {
+            BaseAddress = apiEndpoint
+        };
+        var apiClient = RestService.ForGenerated<IDevProxyApiClient>(
+            httpClient,
+            new RefitSettings
+            {
+                AuthorizationHeaderValueGetter = (_, cancellationToken) =>
+                    builder.Resource.GetApiKeyAsync(apiEndpoint, cancellationToken)
+            });
 
         try
         {
@@ -66,6 +76,10 @@ public static class DevProxyCommandExtensions
         {
             return CommandResults.Failure(
                 $"Dev Proxy returned {(int)exception.StatusCode} {exception.ReasonPhrase}: {exception.Content}");
+        }
+        catch (InvalidOperationException exception)
+        {
+            return CommandResults.Failure(exception.Message);
         }
         catch (HttpRequestException exception)
         {

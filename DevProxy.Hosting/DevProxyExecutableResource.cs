@@ -8,4 +8,9 @@ namespace DevProxy.Hosting;
 public sealed class DevProxyExecutableResource(string name) :
     ExecutableResource(name, "devproxy", ""), IDevProxyApiResource
 {
+    /// <inheritdoc />
+    public string ApiTokenDirectory { get; } = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "dev-proxy",
+        "credentials");
 }

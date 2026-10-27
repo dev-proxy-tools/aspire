@@ -71,12 +71,18 @@ public static class DevProxyResourceBuilderExtensions
         this IDistributedApplicationBuilder builder,
         [ResourceName] string name)
     {
-        var resource = new DevProxyContainerResource(name);
+        var apiTokenDirectory = Path.Combine(
+            builder.AppHostDirectory,
+            "obj",
+            "devproxy-api",
+            name);
+        var resource = new DevProxyContainerResource(name, apiTokenDirectory);
 
         var resourceBuilder = builder.AddResource(resource)
             .WithImage(DevProxyContainerImageTags.Image)
             .WithImageRegistry(DevProxyContainerImageTags.Registry)
             .WithImageTag(DevProxyContainerImageTags.Tag)
+            .WithBindMount(resource.ApiTokenDirectory, "/home/devproxy/.config/dev-proxy/credentials")
             .WithHttpEndpoint(targetPort: 8000, name: DevProxyResource.ProxyEndpointName)
             .WithHttpEndpoint(targetPort: 8897, name: DevProxyResource.ApiEndpointName)
             .WithDevProxyRecordingCommands();
