@@ -91,8 +91,11 @@ builder.Build().Run();
 
 - **Container Resource**: Use `AddDevProxyContainer` to run Dev Proxy as a containerized service.
 - **Executable Resource**: Use `AddDevProxyExecutable` to run Dev Proxy from the locally installed executable.
+- **Recording Commands**: Start and stop Dev Proxy recording from the Aspire dashboard for either resource type.
 - **Custom Configuration**: Use the extension methods to configure Dev Proxy as needed.
 - **Service Integration**: Easily integrate Dev Proxy with other services in your application.
+
+Both Dev Proxy resource types expose `Start recording` and `Stop recording` commands in the Aspire dashboard. The commands require a version of Dev Proxy that supports the `DEV_PROXY_API_TOKEN` environment variable.
 
 ## Contributing
 
